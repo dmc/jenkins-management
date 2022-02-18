@@ -1,9 +1,9 @@
 def errorMessages = []
-@NonCps
+@NonCPS
 def String createMessage(slave) {
   """<a href="${JENKINS_URL}${slave.searchUrl}">${slave.name}</a> is Offline"""
 }
-@NonCps
+@NonCPS
 def void checkStatus(slave,nodes) {
   if (nodes.contains(slave.name)) {
     if (slave.getComputer().isOffline()) {
