@@ -1,6 +1,18 @@
 def errorMessages = []
+@NonCps
 def String createMessage(slave) {
   """<a href="${JENKINS_URL}${slave.searchUrl}">${slave.name}</a> is Offline"""
+}
+@NonCps
+def void checkStatus(slave,nodes) {
+  if (nodes.contains(slave.name)) {
+    if (slave.getComputer().isOffline()) {
+      currentBuild.result = "UNSTABLE"
+      println("${slave.name} is offline..")
+      errorMessages.add(createMessage(slave))
+      isOnline = false
+    }
+  }
 }
 
 pipeline {
@@ -18,13 +30,7 @@ pipeline {
         script {
           def nodes = "${params.NODES}".split(',')
           for (slave in hudson.model.Hudson.instance.slaves) {
-            if (nodes.contains(slave.name)) {
-              if (slave.getComputer().isOffline()) {
-                currentBuild.result = "UNSTABLE"
-                println("${slave.name} is offline..")
-                errorMessages.add(createMessage(slave))
-              }
-            }
+            checkStatus(slave,nodes)
           }
         }
       }
