@@ -4,7 +4,7 @@ def String createMessage(slave) {
   """<a href="${JENKINS_URL}${slave.searchUrl}">${slave.name}</a> is Offline"""
 }
 @NonCPS
-def void checkStatus(slave,nodes) {
+def void checkStatus(slave,nodes,errorMessages) {
   if (nodes.contains(slave.name)) {
     if (slave.getComputer().isOffline()) {
       currentBuild.result = "UNSTABLE"
@@ -30,7 +30,7 @@ pipeline {
         script {
           def nodes = "${params.NODES}".split(',')
           for (slave in hudson.model.Hudson.instance.slaves) {
-            checkStatus(slave,nodes)
+            checkStatus(slave,nodes,errorMessages)
           }
         }
       }
