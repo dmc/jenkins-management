@@ -7,7 +7,7 @@ import hudson.plugins.ec2.SlaveTemplate
 import jenkins.model.Jenkins
 
 @NonCPS
-def provision(agentLabel) {
+provision(agentLabel) {
   result = false  
   agent = (Jenkins.instance.getLabel(agentLabel)) ?: (new LabelAtom(agentLabel))
   Jenkins.instance.clouds.findAll().each { cloud ->
