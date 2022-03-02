@@ -6,15 +6,15 @@ import hudson.plugins.ec2.EC2AbstractSlave
 import hudson.plugins.ec2.SlaveTemplate
 import jenkins.model.Jenkins
 
-@NonCPS
 def provision(agentLabel) {
   result = false  
-  Label agent = (Jenkins.instance.getLabel(agentLabel)) ?: (new LabelAtom(agentLabel))
+  agent = (Jenkins.instance.getLabel(agentLabel)) ?: (new LabelAtom(agentLabel))
   Jenkins.instance.clouds.findAll().each { cloud ->
     template = cloud.getTemplate(agent)
     if (template == null) {
       println("${agentLabel} is not provisioned")
     } else {
+      @NonCPS
       node = template.provision(1, EnumSet.of(SlaveTemplate.ProvisionOptions.FORCE_CREATE))
       Jenkins.instance.addNode(node)
       println "Provisioned ${node} new agents."
