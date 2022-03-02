@@ -7,16 +7,15 @@ import hudson.plugins.ec2.SlaveTemplate
 import jenkins.model.Jenkins
 
 @NonCPS
-def boolean provision(agentLabel) {
+def provision(agentLabel) {
   result = false  
   Label agent = (Jenkins.instance.getLabel(agentLabel)) ?: (new LabelAtom(agentLabel))
-  Jenkins.instance.clouds.findAll().each { AmazonEC2Cloud cloud ->
-	SlaveTemplate t = cloud.getTemplate(agent)
-
-    if (t == null) {
+  Jenkins.instance.clouds.findAll().each { cloud ->
+    template = cloud.getTemplate(agent)
+    if (template == null) {
       println("${agentLabel} is not provisioned")
     } else {
-      node = t.provision(1, EnumSet.of(SlaveTemplate.ProvisionOptions.FORCE_CREATE))
+      node = template.provision(1, EnumSet.of(SlaveTemplate.ProvisionOptions.FORCE_CREATE))
       Jenkins.instance.addNode(node)
       println "Provisioned ${node} new agents."
       result = true
@@ -28,7 +27,7 @@ def boolean provision(agentLabel) {
 pipeline {
   parameters {
     string(name: 'AGENT', defaultValue: 'master', description: 'agent which executes groovy')
-    string(name: 'EC2_NODE_LABEL', defaultValue: 'cppcheck', description: 'label of EC2 Instance slave')
+    string(name: 'EC2_NODE_LABEL', defaultValue: 'maven', description: 'label of EC2 Instance slave')
   }
   agent {
     label "${params.AGENT}"
