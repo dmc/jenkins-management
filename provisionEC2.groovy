@@ -15,18 +15,13 @@ def provision(agentLabel) {
     if (template == null) {
       println("${agentLabel} is not provisioned")
     } else {
-      node = doProvision(template)
+      node = template.provision(1, EnumSet.of(SlaveTemplate.ProvisionOptions.FORCE_CREATE))
       Jenkins.instance.addNode(node)
       println "Provisioned ${node} new agents."
       result = true
     }
   }
   result
-}
-
-@NonCPS
-def doProvision(template) {
-  template.provision(1, EnumSet.of(SlaveTemplate.ProvisionOptions.FORCE_CREATE))
 }
 
 pipeline {
