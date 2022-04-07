@@ -28,7 +28,7 @@ pipeline {
 
 @NonCPS
 def void doClone() {
-  for (int i in 0..1) {
+  for (int i in 0..3) {
     cleanWs()
     git('https://github.com/dmc/jenkins-management.git')
     sleep 10
