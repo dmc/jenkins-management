@@ -1,3 +1,11 @@
+@NonCPS
+def void clone() {
+  for (int i in 0..1) {
+    cleanWs()
+    git('https://github.com/dmc/jenkins-management.git')
+    sleep 10
+  }
+}
 pipeline {
   parameters {
     string(name: 'WEBHOOK_URL', defaultValue: 'https://dmc140.webhook.office.com/webhookb2/c91c7d52-fd4f-4d91-9665-6da80a64bbe8@51b92261-76ef-4836-af43-b346894f9e4d/IncomingWebhook/144571c9dbc64840b5f019a9a2edb859/35b6241d-b538-4294-9c0e-33e1edc20ec1', description: 'teams webhook url')
@@ -9,11 +17,7 @@ pipeline {
     stage('clone') {
       steps {
         script {
-          for (int i in 0..1) {
-            cleanWs()
-            git('https://github.com/dmc/jenkins-management.git')
-            sleep 10
-          }
+          clone()
         }
       }
     }
