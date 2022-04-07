@@ -9,7 +9,12 @@ pipeline {
     stage('clone') {
       steps {
         script {
-          doClone()
+          def array = "012".split("")
+          for (i in array) {
+            cleanWs()
+            git('https://github.com/dmc/jenkins-management.git')
+            sleep 10
+          }
         }
       }
     }
@@ -23,18 +28,5 @@ pipeline {
         
       }
     }
-  }
-}
-
-def void doCleanWs() {
-  cleanWs()
-}
-
-@NonCPS
-def void doClone() {
-  for (int i in 0..3) {
-    doCleanWs()
-    git('https://github.com/dmc/jenkins-management.git')
-    sleep 10
   }
 }
