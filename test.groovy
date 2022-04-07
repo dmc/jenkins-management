@@ -9,7 +9,7 @@ pipeline {
     stage('clone') {
       steps {
         script {
-          clone()
+          doClone()
         }
       }
     }
