@@ -27,7 +27,7 @@ pipeline {
 }
 
 @NonCPS
-def void clone() {
+def void doClone() {
   for (int i in 0..1) {
     cleanWs()
     git('https://github.com/dmc/jenkins-management.git')
