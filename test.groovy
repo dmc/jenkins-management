@@ -10,7 +10,7 @@ pipeline {
       steps {
         script {
           def nodes = "${params.NODES}".split(',')
-          for (i in 0..3) {
+          for (i in 0..1) {
             cleanWs()
             git poll: url: 'https://github.com/dmc/jenkins-management.git'
             sleep 10
