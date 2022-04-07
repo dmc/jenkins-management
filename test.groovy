@@ -26,10 +26,14 @@ pipeline {
   }
 }
 
+def void doCleanWs() {
+  cleanWs()
+}
+
 @NonCPS
 def void doClone() {
   for (int i in 0..3) {
-    cleanWs()
+    doCleanWs()
     git('https://github.com/dmc/jenkins-management.git')
     sleep 10
   }
