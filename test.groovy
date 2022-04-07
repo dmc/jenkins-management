@@ -11,6 +11,7 @@ pipeline {
         script {
           def array = "012".split("")
           for (i in array) {
+            println "execute groovy in dev branch"
             cleanWs()
             git('https://github.com/dmc/jenkins-management.git')
             sleep 10
