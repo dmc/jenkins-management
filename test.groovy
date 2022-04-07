@@ -9,7 +9,6 @@ pipeline {
     stage('clone') {
       steps {
         script {
-          def nodes = "${params.NODES}".split(',')
           for (int i in 0..1) {
             cleanWs()
             git('https://github.com/dmc/jenkins-management.git')
