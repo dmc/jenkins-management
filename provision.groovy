@@ -10,11 +10,10 @@ import jenkins.model.Jenkins
 label = "cppcheck"
 agent = new LabelAtom(label)
 
-Jenkins.instance.clouds.findAll { cloud ->    
-    (cloud in AmazonEC2Cloud) && cloud.canProvision(agent) 
-}.each { cloud ->
-
-    template = cloud.getTemplate(agent)
+Jenkins.instance.clouds.findAll { 
+    it?.canProvision(agent) 
+}.each { 
+    template = it.getTemplate(agent)
     List<Node> nodes = template.provision(1, EnumSet.of(SlaveTemplate.ProvisionOptions.FORCE_CREATE))
     nodes.each { node ->
         Jenkins.instance.addNode(node)
